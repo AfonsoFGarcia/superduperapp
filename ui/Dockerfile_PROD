@@ -1,0 +1,18 @@
+# Build production ready version of application
+FROM node:latest as build-stage
+WORKDIR /app
+COPY package.json /app/package.json
+COPY package-lock.json /app/package-lock.json
+RUN npm install
+COPY src /app/src
+COPY public /app/public
+COPY tsconfig.json /app/tsconfig.json
+#RUN CI=true npm test
+RUN CI=true npm run build
+
+# Create nginx 
+FROM nginx:latest
+COPY config/nginx.conf /etc/nginx/nginx.conf
+COPY --from=build-stage /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

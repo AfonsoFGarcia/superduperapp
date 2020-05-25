@@ -1,0 +1,40 @@
+version: '3'
+  
+networks:
+  superdupernet:
+
+services:
+  keycloak:
+    image: jboss/keycloak:latest
+    volumes:
+      - ./CERN_REALM_PROD.json:/tmp/testrealm.json
+    environment:
+      DB_VENDOR: h2
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: /tmp/testrealm.json
+    networks: 
+      - superdupernet
+    command: -Dkeycloak.profile.feature.upload_scripts=enabled
+  api:
+    image: tomcat:jdk11-openjdk
+    volumes: 
+      - ./api/build/libs/api.war:/usr/local/tomcat/webapps/ROOT.war
+    environment: 
+      CATALINA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000
+    depends_on: 
+      - keycloak
+    networks: 
+      - superdupernet
+  ui_prod:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile_PROD
+    ports:
+      - 80:80
+    depends_on: 
+      - api
+    networks: 
+      superdupernet:
+        aliases: 
+          - keycloak-127-0-0-1.nip.io
