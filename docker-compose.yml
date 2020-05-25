@@ -5,7 +5,7 @@ networks:
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: jboss/keycloak:latest
     volumes:
       - ./CERN_REALM.json:/tmp/testrealm.json
     environment:
@@ -27,6 +27,8 @@ services:
       superdupernet:
         aliases: 
           - keycloak-127-0-0-1.nip.io
+    depends_on: 
+      - keycloak
   api:
     image: tomcat:jdk11-openjdk
     volumes: 
@@ -36,24 +38,20 @@ services:
     ports:
       - 8000:8000
     depends_on: 
-      - keycloak
       - nginx
     networks: 
       - superdupernet
   ui:
-    build:
-      context: ./ui
-      dockerfile: Dockerfile
+    image: node/latest
+    working_dir: /app
     volumes: 
-      - ./ui/public:/app/public
-      - ./ui/src:/app/src
+      - ./ui:/app
     environment: 
       CI: "true"
     ports:
       - 3000:3000
     depends_on: 
       - api
-      - nginx
-      - keycloak
     networks: 
       - superdupernet
+    command: sh -c "npm install && npm start"

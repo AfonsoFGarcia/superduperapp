@@ -20,7 +20,7 @@ const UserAccount: FunctionComponent<UserAccountProps> = () => {
       headers: { "Authorization" : `Bearer ${token}`}
     })
       .then((res: AxiosResponse<string>) => setApiText(res.data))
-  }, [apiText])
+  }, [apiText, state.keycloak])
 
   return (
     <>
