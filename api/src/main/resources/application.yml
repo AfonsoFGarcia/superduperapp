@@ -1,0 +1,10 @@
+keycloak:
+  enabled: true
+  realm: 'CERN'
+  auth-server-url: 'http://keycloak-127-0-0-1.nip.io/auth'
+  ssl-required: 'external'
+  resource: 'spring'
+  use-resource-role-mappings: true
+  bearer-only: true
+  credentials:
+    secret: '0149266e-810b-4c7b-87e1-170a243e7a9f'

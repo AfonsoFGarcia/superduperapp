@@ -1,0 +1,13 @@
+{
+  "accelerating": "Accelerating science",
+  "signIn": "Sign in",
+  "signIn.title": "Sign in to your CERN account",
+  "signOut": "Sign out",
+  "signOut.title": "Sign out of your account",
+  "directory": "Directory",
+  "directory.title": "Search CERN resources and browse the directory",
+  "signedInAs": "Signed in as: ",
+  "verifiedExternal.title": "Signed in with a verified external account",
+  "verified.title": "Signed in as {{name}} ({{username}})",
+  "verifiedMultifactor.title": "Signed in as {{name}} ({{username}}) using multifactor authentication"
+}

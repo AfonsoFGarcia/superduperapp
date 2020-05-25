@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');	
+
+/* 
+
+Mark Boulton Design
+Web site: http://markboultondesign.com
+Twitter: http://twitter.com/markboultondsg
+
+Index
+1. Reset
+2. Clearfix
+
+/* 1. Reset ---------------------------------------- */
+
+.cern-toolbar,
+.cern-toolbar div, 
+.cern-toolbar span, 
+.cern-toolbar h1,
+.cern-toolbar ul,
+.cern-toolbar li {
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	outline: 0 !important;
+	font-size: 100% !important;
+	vertical-align: baseline !important;
+	background: transparent !important;
+}
+
+.cern-toolbar {
+	font-size: 62.5% !important;
+}
+
+.cern-toolbar {
+	line-height: 1 !important;
+}
+
+.cern-toolbar a {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: 100% !important;
+	vertical-align: baseline !important;
+	background: transparent !important;
+}
