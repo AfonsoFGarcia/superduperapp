@@ -42,7 +42,7 @@ services:
     networks: 
       - superdupernet
   ui:
-    image: node/latest
+    image: node:latest
     working_dir: /app
     volumes: 
       - ./ui:/app
