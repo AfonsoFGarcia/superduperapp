@@ -1,38 +1,21 @@
 version: '3'
-
-volumes:
-  postgres_data:
-    driver: local
   
 networks:
   superdupernet:
 
 services:
-  postgres:
-    image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: password
-    networks: 
-      - superdupernet
   keycloak:
     image: quay.io/keycloak/keycloak:latest
+    volumes:
+      - ./CERN_REALM.json:/tmp/testrealm.json
     environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_SCHEMA: public
-      DB_PASSWORD: password
+      DB_VENDOR: h2
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
-    depends_on:
-      - postgres
+      KEYCLOAK_IMPORT: /tmp/testrealm.json
     networks: 
       - superdupernet
+    command: -Dkeycloak.profile.feature.upload_scripts=enabled
   nginx:
     ports: 
       - 80:80
@@ -54,6 +37,7 @@ services:
       - 8000:8000
     depends_on: 
       - keycloak
+      - nginx
     networks: 
       - superdupernet
   ui:
@@ -63,10 +47,13 @@ services:
     volumes: 
       - ./ui/public:/app/public
       - ./ui/src:/app/src
-    tty: true
+    environment: 
+      CI: "true"
     ports:
       - 3000:3000
     depends_on: 
       - api
+      - nginx
+      - keycloak
     networks: 
       - superdupernet
